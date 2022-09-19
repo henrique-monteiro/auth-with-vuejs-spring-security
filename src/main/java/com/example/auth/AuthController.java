@@ -1,7 +1,11 @@
 package com.example.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -18,6 +22,10 @@ public class AuthController {
 
     @PostMapping(value = "/register")
     public RegisterResponse register(@RequestBody RegisterRequest registerRequest){
+        if(!Objects.equals(registerRequest.password(), registerRequest.passwordConfirm())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "password do not match");
+        }
+
         var user = userRepo.save(
                 //factory method User.of
                 User.of(
