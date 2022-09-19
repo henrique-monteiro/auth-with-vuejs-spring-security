@@ -4,6 +4,9 @@ import com.example.auth.service.AuthService;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequestMapping(value = "/api")
 public class AuthController {
@@ -27,10 +30,19 @@ public class AuthController {
     }
 
     record LoginRequest(String email, String password){}
-    record LoginResponse(Long id, @JsonProperty("first_name") String firstName, @JsonProperty("last_name") String lastName, String email){}
+    record LoginResponse(String token){}
+
     @PostMapping(value = "/login")
-    public LoginResponse login(@RequestBody LoginRequest loginRequest){
-        var user = authService.login(loginRequest.email(), loginRequest.password());
-        return new LoginResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
+    public LoginResponse login(@RequestBody LoginRequest loginRequest, HttpServletResponse response){
+        var login = authService.login(loginRequest.email(), loginRequest.password());
+
+        Cookie cookie = new Cookie("refresh_token", login.getRefreshToken().getToken());
+        cookie.setMaxAge(3600);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/api");
+
+        response.addCookie(cookie);
+
+        return new LoginResponse(login.getAccessToken().getToken());
     }
 }
