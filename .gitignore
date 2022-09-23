@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### H2 file ###
+auth_db.mv.db
+auth_db.trace.db
