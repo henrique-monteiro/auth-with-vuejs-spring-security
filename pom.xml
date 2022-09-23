@@ -36,17 +36,17 @@
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
-			<version>0.10.7</version>
+			<version>0.11.5</version>
 		</dependency>
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-impl</artifactId>
-			<version>0.10.7</version>
+			<version>0.11.5</version>
 		</dependency>
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-jackson</artifactId>
-			<version>0.10.7</version>
+			<version>0.11.5</version>
 		</dependency>
 
 		<dependency>
@@ -68,6 +68,11 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-catalina</artifactId>
+			<version>10.0.23</version>
 		</dependency>
 	</dependencies>
 

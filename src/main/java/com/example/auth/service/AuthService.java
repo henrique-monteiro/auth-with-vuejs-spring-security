@@ -44,4 +44,16 @@ public class AuthService {
 
         return Login.of(user.getId(), accessTokenSecret, refreshTokenSecret);
     }
+
+    public User getUserFromToken(String token) {
+        String test = token;
+        Long id = Token.from(token, accessTokenSecret);
+        return userRepo.findById(Token.from(token, accessTokenSecret))
+                .orElseThrow(RuntimeException::new);
+    }
+
+    public Login refreshAccess(String refreshToken){
+        var userId = Token.from(refreshToken, refreshTokenSecret);
+        return Login.of(userId, accessTokenSecret, Token.of(refreshToken));
+    }
 }
